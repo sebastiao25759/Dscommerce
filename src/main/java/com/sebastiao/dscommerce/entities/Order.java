@@ -85,6 +85,10 @@ public class Order {
         return items;
     }
 
+    public List<Product> getProducts() {
+        return items.stream().map(OrderItem::getProduct).toList();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Order order)) return false;
