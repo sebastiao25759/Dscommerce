@@ -18,6 +18,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String phone;
+    @Column(name = "birth_date")
     private LocalDate birthdate;
     private String password;
 
