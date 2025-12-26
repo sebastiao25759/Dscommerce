@@ -29,4 +29,17 @@ public class ProductService {
         Product product = repository.findById(id).get();
         return new ProductDTO(product);
     }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+        Product obj = new Product();
+        obj.setName(dto.getName());
+        obj.setDescription(dto.getDescription());
+        obj.setPrice(dto.getPrice());
+        obj.setImgUrl(dto.getImgUrl());
+
+        obj = repository.save(obj);
+
+        return new ProductDTO(obj);
+    }
 }
