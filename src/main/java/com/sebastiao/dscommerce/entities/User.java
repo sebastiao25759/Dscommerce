@@ -3,9 +3,7 @@ package com.sebastiao.dscommerce.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -18,12 +16,17 @@ public class User {
     @Column(unique = true)
     private String email;
     private String phone;
-    @Column(name = "birth_date")
-    private LocalDate birthdate;
+    private LocalDate birthDate;
     private String password;
 
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -33,7 +36,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.birthdate = birthdate;
+        this.birthDate = birthdate;
         this.password = password;
     }
 
@@ -69,12 +72,12 @@ public class User {
         this.phone = phone;
     }
 
-    public LocalDate getBirthdate() {
-        return birthdate;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(LocalDate birthdate) {
+        this.birthDate = birthdate;
     }
 
     public String getPassword() {
@@ -87,6 +90,19 @@ public class User {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public Set<Role> getRoles(){ return roles; }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public boolean hasRole(String roleName) {
+        for(Role role : roles) {
+            if(role.getAuthority().equals(roleName)) return true;
+        }
+        return false;
     }
 
     @Override
