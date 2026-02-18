@@ -2,6 +2,7 @@ package com.sebastiao.dscommerce.services;
 
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.sebastiao.dscommerce.dto.ProductDTO;
+import com.sebastiao.dscommerce.dto.ProductMinDTO;
 import com.sebastiao.dscommerce.entities.Product;
 import com.sebastiao.dscommerce.repositories.ProductRepository;
 import com.sebastiao.dscommerce.services.exceptions.DatabaseException;
@@ -25,9 +26,9 @@ public class ProductService {
     private ProductRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
+    public Page<ProductMinDTO> findAll(Pageable pageable){
         Page<Product> result = repository.findAll(pageable);
-        return result.map(ProductDTO::new);
+        return result.map(ProductMinDTO::new);
     }
 
     @Transactional(readOnly = true)
